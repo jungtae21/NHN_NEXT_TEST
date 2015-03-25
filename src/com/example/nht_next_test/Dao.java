@@ -11,8 +11,10 @@ import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.util.Log;
 
+
+
 //Data Access Objects
-//SQLite°ü¸® ¸ðµâ
+//SQLiteï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½
 public class Dao {
 
 	private Context context;
@@ -21,11 +23,11 @@ public class Dao {
 	public Dao(Context context) {
 		this.context = context;
 
-		// SQLiteµ¥ÀÌÅÍº£ÀÌ½ºÀÇ ÀÎ½ºÅÏ½º¸¦ ¸¸µé°í, openOrCreateDatabase()·Î ÃÊ±âÈ­
+		// SQLiteï¿½ï¿½ï¿½ï¿½ï¿½Íºï¿½ï¿½Ì½ï¿½ï¿½ï¿½ ï¿½Î½ï¿½ï¿½Ï½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½, openOrCreateDatabase()ï¿½ï¿½ ï¿½Ê±ï¿½È­
 		database = context.openOrCreateDatabase("LocalDATA2.db",
 				SQLiteDatabase.CREATE_IF_NECESSARY, null);
 
-		// Å×ÀÌºí »ý¼º
+		// ï¿½ï¿½ï¿½Ìºï¿½ ï¿½ï¿½ï¿½ï¿½
 		try {
 			String sql = "CREATE TABLE IF NOT EXISTS Articles(ID integer primary key autoincrement, "
 					+ "ArticleNumber integer UNIQUE not null, "
@@ -43,7 +45,7 @@ public class Dao {
 	}
 
 	public void insertJsonData(String jsonData) {
-		// jsonÀ¸·Î µ¥ÀÌÅÍ¸¦ ÆÄ½ÌÇÒ ¶§ ¾µ ÀÓ½Ã º¯¼ö
+		// jsonï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Í¸ï¿½ ï¿½Ä½ï¿½ï¿½ï¿½ ï¿½ï¿½ ï¿½ï¿½ ï¿½Ó½ï¿½ ï¿½ï¿½ï¿½ï¿½
 		int articleNumber;
 		String title;
 		String writer;
@@ -51,6 +53,9 @@ public class Dao {
 		String content;
 		String writeDate;
 		String imgName;
+		
+		FileDownloader fileDownloader = new FileDownloader(context);
+		
 		try {
 			JSONArray jArr = new JSONArray(jsonData);
 
@@ -70,7 +75,7 @@ public class Dao {
 				Log.i("test", "ImgName : " + articleNumber + "Title : "
 						+ imgName);
 
-				// DB¿¡ µ¥ÀÌÅÍ ³Ö±â
+				// DBï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Ö±ï¿½
 				String sql = "INSERT INTO Articles(ArticleNumber, Title, WriterName, WriterID, Content, WriteDate, ImgName)"
 						+ " VALUES("
 						+ articleNumber
@@ -90,6 +95,7 @@ public class Dao {
 					Log.e("test", "DB Error! - " + e);
 					e.printStackTrace();
 				}
+				fileDownloader.downFile("http://elisms.com/adminpage/image/1.jpg", imgName);
 			}
 		} catch (JSONException e) {
 			Log.e("test", "JSON ERROR! - " + e);
@@ -97,7 +103,7 @@ public class Dao {
 		}
 	}
 
-	// DBÀÇ ³»¿ëÀ» ²¨³»¼­ ArrayList<Article>ÇüÅÂ·Î ¹ÝÈ¯ÇÏ´Â ÇÔ¼ö
+	// DBï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ArrayList<Article>ï¿½ï¿½ï¿½Â·ï¿½ ï¿½ï¿½È¯ï¿½Ï´ï¿½ ï¿½Ô¼ï¿½
 	public ArrayList<Article> getArticleList() {
 
 		ArrayList<Article> articleList = new ArrayList<Article>();
@@ -110,7 +116,7 @@ public class Dao {
 		String writeDate;
 		String imgName;
 
-		// µ¥ÀÌÅÍ ¼±ÅÃ
+		// ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
 		String sql = "SELECT * FROM Articles;";
 		Cursor cursor = database.rawQuery(sql, null);
 
@@ -131,8 +137,8 @@ public class Dao {
 		return articleList;
 	}
 
-	// ArticleViewer·Î ¾×ºñºñÆ¼°¡ ³Ñ¾î°¥ ¶§, number¸¸ °¡Áö°í´Â ´Ù¸¥ Á¤º¸¸¦ °¡Á®¿Ã ¼ö ¾øÀ½À¸·Î
-	// number¸¦ °¡Áö°í ´Ù¸¥ Á¤º¸¸¦ DB¿¡¼­ °¡Á®¿À±â À§ÇÔ
+	// ArticleViewerï¿½ï¿½ ï¿½×ºï¿½ï¿½Æ¼ï¿½ï¿½ ï¿½Ñ¾î°¥ ï¿½ï¿½, numberï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Ù¸ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
+	// numberï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Ù¸ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ DBï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
 
 	public Article getArticleByArticleNumber(int articleNumber) {
 
@@ -145,7 +151,7 @@ public class Dao {
 		String writeDate;
 		String imgName;
 
-		// µ¥ÀÌÅÍ ¼±ÅÃ
+		// ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
 		String sql = "SELECT * FROM Articles WHERE ArticleNumber = "
 				+ articleNumber + ";";
 		Cursor cursor = database.rawQuery(sql, null);
@@ -169,9 +175,9 @@ public class Dao {
 	}
 
 	/**
-	 * JSONÆÄ½ÌÀ» À§ÇÑ Å×½ºÆ® ¹®ÀÚ¿­ÀÔ´Ï´Ù. °¢ µ¥ÀÌÅÍ´Â ´ÙÀ½°ú °°½À´Ï´Ù. ArticleNumber - ±Û¹øÈ£ Áßº¹X ¼ýÀÚ Title
-	 * - ±ÛÁ¦¸ñ ¹®ÀÚ¿­ Writer - ÀÛ¼ºÀÚ Id - ÀÛ¼ºÀÚID Content - ±Û³»¿ë WriteDate - ÀÛ¼ºÀÏ ImgName -
-	 * »çÁø¸í
+	 * JSONï¿½Ä½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½×½ï¿½Æ® ï¿½ï¿½ï¿½Ú¿ï¿½ï¿½Ô´Ï´ï¿½. ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Í´ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ï´ï¿½. ArticleNumber - ï¿½Û¹ï¿½È£ ï¿½ßºï¿½X ï¿½ï¿½ï¿½ï¿½ Title
+	 * - ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½Ú¿ï¿½ Writer - ï¿½Û¼ï¿½ï¿½ï¿½ Id - ï¿½Û¼ï¿½ï¿½ï¿½ID Content - ï¿½Û³ï¿½ï¿½ï¿½ WriteDate - ï¿½Û¼ï¿½ï¿½ï¿½ ImgName -
+	 * ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 	 */
 	public String getJsonTestData() {
 		StringBuilder sb = new StringBuilder();
@@ -179,27 +185,27 @@ public class Dao {
 		sb.append("[");
 		sb.append("      {");
 		sb.append("         'ArticleNumber':'1',");
-		sb.append("         'Title':'¿À´Ãµµ ÁÁÀº ÇÏ·ç',");
-		sb.append("         'Writer':'ÇÐ»ý1',");
+		sb.append("         'Title':'ï¿½ï¿½ï¿½Ãµï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½Ï·ï¿½',");
+		sb.append("         'Writer':'ï¿½Ð»ï¿½1',");
 		sb.append("         'Id':'6613d02f3e2153283f23bf621145f877',");
-		sb.append("         'Content':'ÇÏÁö¸¸ °ð ±â¸»°í»çÁö...',");
+		sb.append("         'Content':'ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ ï¿½â¸»ï¿½ï¿½ï¿½ï¿½ï¿½...',");
 		sb.append("         'WriteDate':'2013-09-23-10-10',");
 		sb.append("         'ImgName':'1.jpg'");
 		sb.append("      },");
 		sb.append("      {");
 
 		sb.append("         'ArticleNumber':'2',");
-		sb.append("         'Title':'´ëÃâ ÃÖ°í 3000¸¸¿ø',");
-		sb.append("         'Writer':'±è¹Ì¿µ ÆÀÀå',");
+		sb.append("         'Title':'ï¿½ï¿½ï¿½ï¿½ ï¿½Ö°ï¿½ 3000ï¿½ï¿½ï¿½ï¿½',");
+		sb.append("         'Writer':'ï¿½ï¿½Ì¿ï¿½ ï¿½ï¿½ï¿½ï¿½',");
 		sb.append("         'Id':'6326d02f3e2153266f23bf621145f734',");
-		sb.append("         'Content':'±è¹Ì¿µÆÀÀåÀÔ´Ï´Ù. °í°»´Ô²²¼­´Â ÃÖÀúÀÌÀ²·Î ÃÖ°í 3000¸¸¿ø±îÁö 30ºÐ ÀÌ³» ÅëÀåÀÔ±Ý°¡´ÉÇÕ´Ï´Ù.',");
+		sb.append("         'Content':'ï¿½ï¿½Ì¿ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ô´Ï´ï¿½. ï¿½ï¿½ï¿½Ô²ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Ö°ï¿½ 3000ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ 30ï¿½ï¿½ ï¿½Ì³ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ô±Ý°ï¿½ï¿½ï¿½ï¿½Õ´Ï´ï¿½.',");
 		sb.append("         'WriteDate':'2013-09-24-11-22',");
 		sb.append("         'ImgName':'2.jpg'");
 		sb.append("      },");
 		sb.append("      {");
 		sb.append("         'ArticleNumber':'3',");
-		sb.append("         'Title':'MACµî·Ï½ÅÃ»',");
-		sb.append("         'Writer':'ÇÐ»ý2',");
+		sb.append("         'Title':'MACï¿½ï¿½Ï½ï¿½Ã»',");
+		sb.append("         'Writer':'ï¿½Ð»ï¿½2',");
 		sb.append("         'Id':'8426d02f3e2153283246bf6211454262',");
 		sb.append("         'Content':'1a:2b:3c:4d:5e:6f',");
 		sb.append("         'WriteDate':'2013-09-25-12-33',");

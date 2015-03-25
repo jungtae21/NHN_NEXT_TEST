@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Handler;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.AdapterView;
@@ -12,7 +13,9 @@ import android.widget.AdapterView.OnItemClickListener;
 import android.widget.Button;
 import android.widget.ListView;
 
-//OnItemClickListener - ¸®½ºÆ®ºäÀÇ ¾ÆÀÌÅÛ ÇÏ³ª Å¬¸¯ÇßÀ» ¶§ ±â´É
+
+
+//OnItemClickListener - ï¿½ï¿½ï¿½ï¿½Æ®ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Ï³ï¿½ Å¬ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ ï¿½ï¿½ï¿½
 public class MainActivity extends Activity implements OnClickListener,
 		OnItemClickListener {
 
@@ -32,19 +35,13 @@ public class MainActivity extends Activity implements OnClickListener,
 
 		mainListView1 = (ListView) findViewById(R.id.main_listView1);
 
-		// DB¿¡ JSONµ¥ÀÌÅÍ¸¦ ÀúÀå
-		Dao dao = new Dao(getApplicationContext());
-		String testJsonData = dao.getJsonTestData();
-		dao.insertJsonData(testJsonData);
-
-		// DB·ÎºÎÅÍ °Ô½Ã±Û ¸®½ºÆ®¸¦ ¹Þ¾Æ¿È
-		articleList = dao.getArticleList();
-
-		// CustomAdapter¸¦ Àû¿ëÇÔ
-		CustomAdapter customAdapter = new CustomAdapter(this,
-				R.layout.cutsom_list_row, articleList);
-		mainListView1.setAdapter(customAdapter);
-		mainListView1.setOnItemClickListener(this);
+		refreshData();
+		
+		listView();
+		// ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ Daoï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ JSONï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
+		// String testJsonData = dao.getJsonTestData();
+		// dao.insertJsonData(testJsonData);
+		//listView();
 	}
 
 	@Override
@@ -58,10 +55,48 @@ public class MainActivity extends Activity implements OnClickListener,
 			long id) {
 		// TODO Auto-generated method stub
 		Intent intent = new Intent(this, ArticleViewer.class);
-		
-		intent.putExtra("ArticleNumber", articleList.get(position).getArticleNumber()+"");
-		
+
+		intent.putExtra("ArticleNumber", articleList.get(position)
+				.getArticleNumber() + "");
+
 		startActivity(intent);
+	}
+
+	private void listView() {
+		// DBï¿½Îºï¿½ï¿½ï¿½ ï¿½Ô½Ã±ï¿½ ï¿½ï¿½ï¿½ï¿½Æ®ï¿½ï¿½ ï¿½Þ¾Æ¿ï¿½
+		Dao dao = new Dao(getApplicationContext());
+		articleList = dao.getArticleList();
+
+		// CustomAdapterï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
+		CustomAdapter customAdapter = new CustomAdapter(this,
+				R.layout.cutsom_list_row, articleList);
+		mainListView1.setAdapter(customAdapter);
+		mainListView1.setOnItemClickListener(this);
+	}
+
+	private final Handler handler = new Handler();
+
+	private void refreshData() {
+		new Thread() {
+			public void run() {
+				// ï¿½ï¿½ï¿½ï¿½ï¿½Îºï¿½ï¿½ï¿½ JSON ï¿½ï¿½ï¿½ï¿½ï¿½Í¸ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
+				Proxy proxy = new Proxy();
+				String jsonData = proxy.getJSON();
+
+				// DBï¿½ï¿½ JSONï¿½ï¿½ï¿½ï¿½ï¿½Í¸ï¿½ ï¿½ï¿½ï¿½ï¿½
+				Dao dao = new Dao(getApplicationContext());
+				dao.insertJsonData(jsonData);
+			
+				handler.post(new Runnable() {
+
+					@Override
+					public void run() {
+						// TODO Auto-generated method stub
+						listView();
+					}
+				});
+			}
+		}.start();
 	}
 
 }

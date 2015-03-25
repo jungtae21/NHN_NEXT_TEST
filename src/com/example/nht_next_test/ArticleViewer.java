@@ -1,12 +1,11 @@
 package com.example.nht_next_test;
 
-import java.io.IOException;
-import java.io.InputStream;
+import java.io.File;
 
 import android.app.Activity;
-import android.graphics.drawable.Drawable;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.os.Bundle;
-import android.util.Log;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -24,7 +23,7 @@ public class ArticleViewer extends Activity {
 		String articleNumber = getIntent().getExtras().getString(
 				"ArticleNumber");
 
-		// Dao �ʱ�ȭ
+		// Dao �ʱ�ȭ
 		Dao dao = new Dao(getApplicationContext());
 
 		Article article = dao.getArticleByArticleNumber(Integer
@@ -34,7 +33,7 @@ public class ArticleViewer extends Activity {
 		tvWriter.setText(article.getWriter());
 		tvContent.setText(article.getContent());
 		tvWriteDate.setText(article.getWriteDate());
-		
+		/*
 		try{
 			InputStream ims = getApplicationContext().getAssets().open(article.getImgName());
 			
@@ -43,6 +42,15 @@ public class ArticleViewer extends Activity {
 			tvImage.setImageDrawable(d);
 		}catch(IOException e){
 			Log.e("ERROR", "ERROR : "+e);
+		}
+		*/
+		String img_path = getApplicationContext().getFilesDir().getPath()+"/"+article.getImgName();
+		File img_load_path = new File(img_path);
+		
+		if(img_load_path.exists()){
+			//이미지가 경로에 있으면 이미지를 비트맵으로 바꾸어서 이미지 뷰에 표시
+			Bitmap bitmap = BitmapFactory.decodeFile(img_path);
+			tvImage.setImageBitmap(bitmap);
 		}
 	}
 }

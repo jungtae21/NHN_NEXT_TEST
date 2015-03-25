@@ -1,13 +1,12 @@
 package com.example.nht_next_test;
 
-import java.io.IOException;
-import java.io.InputStream;
+import java.io.File;
 import java.util.ArrayList;
 
 import android.app.Activity;
 import android.content.Context;
-import android.graphics.drawable.Drawable;
-import android.util.Log;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -15,14 +14,15 @@ import android.widget.ArrayAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+
 public class CustomAdapter extends ArrayAdapter<Article> {
 	private Context context;
 	private int layoutResourceId;
 	private ArrayList<Article> articleData;
 
 	/*
-	 * Ä¿½ºÅÒ ¾î´ðÅÍ´Â ÄÁÅØ½ºÆ®Á¤º¸, ui·¹ÀÌ¾Æ¿ô id, ¸®½ºÆ®¿¡ Ç¥½ÃÇÒ µ¥ÀÌÅÍ°¡ ÇÊ¿ä UI·¹ÀÌ¾Æ¿ôid´Â ¸®½ºÆ®ÀÇ Ä­ ÇÏ³ªÀÇ ·¹ÀÌ¾Æ¿ôÀ»
-	 * ±¸¼ºÇÏ´Â °Í Ä¿½ºÅÒ ¾î´ðÅÍ´Â ÀÚ½ÅÀÌ Á÷Á¢ ·¹ÀÌ¾Æ¿ôÀ» ¸¸µé ¼ö ÀÖÀ½
+	 * Ä¿ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½Í´ï¿½ ï¿½ï¿½ï¿½Ø½ï¿½Æ®ï¿½ï¿½ï¿½ï¿½, uiï¿½ï¿½ï¿½Ì¾Æ¿ï¿½ id, ï¿½ï¿½ï¿½ï¿½Æ®ï¿½ï¿½ Ç¥ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Í°ï¿½ ï¿½Ê¿ï¿½ UIï¿½ï¿½ï¿½Ì¾Æ¿ï¿½idï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½Æ®ï¿½ï¿½ Ä­ ï¿½Ï³ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½Ì¾Æ¿ï¿½ï¿½ï¿½
+	 * ï¿½ï¿½ï¿½ï¿½ï¿½Ï´ï¿½ ï¿½ï¿½ Ä¿ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½Í´ï¿½ ï¿½Ú½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½Ì¾Æ¿ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
 	 */
 	public CustomAdapter(Context context, int layoutResourceId,
 			ArrayList<Article> articleData) {
@@ -32,19 +32,19 @@ public class CustomAdapter extends ArrayAdapter<Article> {
 		this.articleData = articleData;
 	}
 
-	// getView¸¦ ¿À¹ö¶óÀÌµùÇÏ¿© ¸®½ºÆ®°¡ ¾î¶»°Ô º¸¿©ÁúÁö Á¤ÀÇ
+	// getViewï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ìµï¿½ï¿½Ï¿ï¿½ ï¿½ï¿½ï¿½ï¿½Æ®ï¿½ï¿½ ï¿½î¶»ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
 	public View getView(int position, View convertView, ViewGroup parent) {
 
-		// row´Â ¸®½ºÆ®ÀÇ °¢°¢ÀÇ Ä­ÀÌ µÊ
+		// rowï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½Æ®ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ Ä­ï¿½ï¿½ ï¿½ï¿½
 		View row = convertView;
 
 		if (row == null) {
 			LayoutInflater inflater = ((Activity) context).getLayoutInflater();
-			// UI·¹ÀÌ¾Æ¿ôÀ» ºÒ·¯¼­ °´Ã¼È­
+			// UIï¿½ï¿½ï¿½Ì¾Æ¿ï¿½ï¿½ï¿½ ï¿½Ò·ï¿½ï¿½ï¿½ ï¿½ï¿½Ã¼È­
 			row = inflater.inflate(layoutResourceId, parent, false);
 		}
 
-		// row.findViewById·Î row¾ÈÀÇ ·¹ÀÌ¾Æ¿ôÀ» ¼³Á¤
+		// row.findViewByIdï¿½ï¿½ rowï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½Ì¾Æ¿ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
 		ImageView imageView = (ImageView) row.findViewById(R.id.imageView1);
 		TextView tvTitle = (TextView) row.findViewById(R.id.textView1);
 		TextView tvContent = (TextView) row.findViewById(R.id.textView2);
@@ -52,7 +52,8 @@ public class CustomAdapter extends ArrayAdapter<Article> {
 		tvTitle.setText(articleData.get(position).getTitle());
 		tvContent.setText(articleData.get(position).getContent());
 
-		// ÀÌ¹ÌÁö¸¦ ÀÐ¾î¿Í ¸®½ºÆ®¿¡ Ç¥½ÃÇØ ÁÖ´Â °ÍÀ¸·Î ¿¡±â¿¡¼­´Â assetÆú´õ¿¡ »çÁøÀ» Áý¾î³Ö°í °¡Á®¿È
+		// ï¿½Ì¹ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Ð¾ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½Æ®ï¿½ï¿½ Ç¥ï¿½ï¿½ï¿½ï¿½ ï¿½Ö´ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½â¿¡ï¿½ï¿½ï¿½ï¿½ assetï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½Ö°ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
+		/*
 		try {
 			InputStream is = context.getAssets().open(
 					articleData.get(position).getImgName());
@@ -63,7 +64,16 @@ public class CustomAdapter extends ArrayAdapter<Article> {
 		} catch (IOException e) {
 			Log.e("ERROR", "Error" + e);
 		}
-
+		 */
+		
+		String img_path = context.getFilesDir().getPath()+"/"+articleData.get(position).getImgName();
+		File img_load_path = new File(img_path);
+		
+		if(img_load_path.exists()){
+			//ï¿½Ì¹ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½Î¿ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Ì¹ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½Æ®ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Ù²Ù¾î¼­ ï¿½Ì¹ï¿½ï¿½ï¿½ ï¿½ä¿¡ Ç¥ï¿½ï¿½
+			Bitmap bitmap = BitmapFactory.decodeFile(img_path);
+			imageView.setImageBitmap(bitmap);
+		}
 		return row;
 
 	}
