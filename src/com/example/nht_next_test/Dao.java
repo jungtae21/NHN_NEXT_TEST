@@ -101,7 +101,7 @@ public class Dao {
 	public ArrayList<Article> getArticleList() {
 
 		ArrayList<Article> articleList = new ArrayList<Article>();
-	
+
 		int articleNumber;
 		String title;
 		String writer;
@@ -109,12 +109,12 @@ public class Dao {
 		String content;
 		String writeDate;
 		String imgName;
-		
-		//데이터 선택
+
+		// 데이터 선택
 		String sql = "SELECT * FROM Articles;";
 		Cursor cursor = database.rawQuery(sql, null);
-		
-		while(cursor.moveToNext()){
+
+		while (cursor.moveToNext()) {
 			articleNumber = cursor.getInt(1);
 			title = cursor.getString(2);
 			writer = cursor.getString(3);
@@ -122,12 +122,50 @@ public class Dao {
 			content = cursor.getString(5);
 			writeDate = cursor.getString(6);
 			imgName = cursor.getString(7);
-			
-			articleList.add(new Article(articleNumber, title, writer, id, content, writeDate, imgName));
+
+			articleList.add(new Article(articleNumber, title, writer, id,
+					content, writeDate, imgName));
 		}
 		cursor.close();
-		
+
 		return articleList;
+	}
+
+	// ArticleViewer로 액비비티가 넘어갈 때, number만 가지고는 다른 정보를 가져올 수 없음으로
+	// number를 가지고 다른 정보를 DB에서 가져오기 위함
+
+	public Article getArticleByArticleNumber(int articleNumber) {
+
+		Article article = null;
+
+		String title;
+		String writer;
+		String id;
+		String content;
+		String writeDate;
+		String imgName;
+
+		// 데이터 선택
+		String sql = "SELECT * FROM Articles WHERE ArticleNumber = "
+				+ articleNumber + ";";
+		Cursor cursor = database.rawQuery(sql, null);
+		
+		cursor.moveToNext();
+		
+		articleNumber = cursor.getInt(1);
+		title = cursor.getString(2);
+		writer = cursor.getString(3);
+		id = cursor.getString(4);
+		content = cursor.getString(5);
+		writeDate = cursor.getString(6);
+		imgName = cursor.getString(7);
+
+		article = new Article(articleNumber, title, writer, id, content,
+				writeDate, imgName);
+		
+		cursor.close();
+
+		return article;
 	}
 
 	/**
@@ -146,7 +184,7 @@ public class Dao {
 		sb.append("         'Id':'6613d02f3e2153283f23bf621145f877',");
 		sb.append("         'Content':'하지만 곧 기말고사지...',");
 		sb.append("         'WriteDate':'2013-09-23-10-10',");
-		sb.append("         'ImgName':'photo1.jpg'");
+		sb.append("         'ImgName':'1.jpg'");
 		sb.append("      },");
 		sb.append("      {");
 
@@ -156,7 +194,7 @@ public class Dao {
 		sb.append("         'Id':'6326d02f3e2153266f23bf621145f734',");
 		sb.append("         'Content':'김미영팀장입니다. 고갱님께서는 최저이율로 최고 3000만원까지 30분 이내 통장입금가능합니다.',");
 		sb.append("         'WriteDate':'2013-09-24-11-22',");
-		sb.append("         'ImgName':'photo2.jpg'");
+		sb.append("         'ImgName':'2.jpg'");
 		sb.append("      },");
 		sb.append("      {");
 		sb.append("         'ArticleNumber':'3',");
@@ -165,7 +203,7 @@ public class Dao {
 		sb.append("         'Id':'8426d02f3e2153283246bf6211454262',");
 		sb.append("         'Content':'1a:2b:3c:4d:5e:6f',");
 		sb.append("         'WriteDate':'2013-09-25-12-33',");
-		sb.append("         'ImgName':'photo3.jpg'");
+		sb.append("         'ImgName':'3.jpg'");
 		sb.append("      }");
 		sb.append("]");
 
