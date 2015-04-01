@@ -12,8 +12,6 @@ import org.apache.http.util.ByteArrayBuffer;
 import android.content.Context;
 import android.util.Log;
 
-
-
 public class FileDownloader {
 	private final Context context;
 
@@ -23,7 +21,8 @@ public class FileDownloader {
 
 	public void downFile(String fileUrl, String fileName) {
 		File filePath = new File(context.getFilesDir().getPath()+"/"+fileName);
-		// ������ �̹� ���� ��� �ٿ�ε� ���� ����
+
+		// 파일이 이미 있을 경우 다운로드 하지 않음
 		if (!filePath.exists()) {
 			try {
 
@@ -31,39 +30,38 @@ public class FileDownloader {
 
 				HttpURLConnection conn = (HttpURLConnection) url.openConnection();
 
-				// ���� ���ӽ��� Time out(ms)
+				// 서버 접속시의 Time out(ms)
 				conn.setConnectTimeout(10 * 1000);
 
-				// Read���� Time out(ms)
+				// Read시의 Time out(ms)
 				conn.setReadTimeout(10 * 1000);
 
-				// ��û��� ����
+				// 요청 방식 선택
 				conn.setRequestMethod("GET");
 
-				// ������ �����ϵ��� ��
+				// 연결을 지속하도록 함
 				conn.setRequestProperty("Connetion", "Keep-Alive");
 
-				// ĳ���ͼ��� UTF-8�� ��û
+				// 캐릭터셋을 UTF-8로 요청
 				conn.setRequestProperty("Accept-Charset", "UTF-8");
 
-				// ĳ�õ� �����͸� ������� �ʰ� �Ź� �����κ��� �ٽ� ����
+				// 캐시된 데이터를 사용하지 않고 매번 서버로부터 다시 받음
 				conn.setRequestProperty("Cache-Control", "no-cache");
 
-				// �����κ��� �ƹ� ������ �����ͳ� �� ��û
+				// 서버로부터 아무 형식의 데이터나 다 요청
 				conn.setRequestProperty("Accept", "*/*");
 
-				// InputStream���� ������ ���� ������ �ްڴٴ� �ɼ�
+				// InputStream으로 서버로부터 응답을 받겠다는 옵션
 				conn.setDoInput(true);
 
 				conn.connect();
-
 				int status = conn.getResponseCode();
 
 				switch (status) {
-				// ���������� ������ �� ����(200,201�� ResponseCode)
+				// 정상적으로 연결이 된 상태
 				case 200:
 				case 201:
-					Log.i("test", "정상 접속 여부 확인");
+					Log.i("test2", "정상 접속 여부 확인111111");
 					InputStream is = conn.getInputStream();
 					BufferedInputStream bis = new BufferedInputStream(is);
 					ByteArrayBuffer baf = new ByteArrayBuffer(50);
@@ -83,12 +81,12 @@ public class FileDownloader {
 					
 					break;
 				default :
-					Log.i("test", "정상 접속 여부 확인2222222");
+					Log.i("test2", "정상 접속 여부 확인2222222");
 				}
 
 			} catch (Exception e) {
 				e.printStackTrace();
-				Log.i("test", "File download ERROR : " + e);
+				Log.i("test2", "File download ERROR : " + e);
 			}
 		}
 	}

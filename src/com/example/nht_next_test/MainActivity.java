@@ -35,19 +35,31 @@ public class MainActivity extends Activity implements OnClickListener,
 
 		mainListView1 = (ListView) findViewById(R.id.main_listView1);
 
-		refreshData();
-		
-		listView();
 		// ������ Dao���� �������� JSON���� ����
 		// String testJsonData = dao.getJsonTestData();
 		// dao.insertJsonData(testJsonData);
 		//listView();
 	}
+	public void onResume(){
+		super.onResume();
+		
+		refreshData();
+		
+		listView();
+	}
 
 	@Override
 	public void onClick(View v) {
 		// TODO Auto-generated method stub
-
+		switch(v.getId()){
+		case R.id.main_button_write:
+			Intent intent = new Intent(this, ArticleWriter.class);
+			startActivity(intent);
+			break;
+		case R.id.main_button_refresh:
+			refreshData();
+			break;
+		}
 	}
 
 	@Override
@@ -63,11 +75,11 @@ public class MainActivity extends Activity implements OnClickListener,
 	}
 
 	private void listView() {
-		// DB�κ��� �Խñ� ����Ʈ�� �޾ƿ�
+		// DB로부터 게시글 리스트를 받아옴
 		Dao dao = new Dao(getApplicationContext());
 		articleList = dao.getArticleList();
 
-		// CustomAdapter�� ������
+		// CustomAdapter를 적용함
 		CustomAdapter customAdapter = new CustomAdapter(this,
 				R.layout.cutsom_list_row, articleList);
 		mainListView1.setAdapter(customAdapter);
@@ -79,11 +91,11 @@ public class MainActivity extends Activity implements OnClickListener,
 	private void refreshData() {
 		new Thread() {
 			public void run() {
-				// �����κ��� JSON �����͸� ������
+				// 서버로부터 JSON 데이터를 가져옴
 				Proxy proxy = new Proxy();
 				String jsonData = proxy.getJSON();
 
-				// DB�� JSON�����͸� ����
+				// DB에 JSON데이터를 저장
 				Dao dao = new Dao(getApplicationContext());
 				dao.insertJsonData(jsonData);
 			

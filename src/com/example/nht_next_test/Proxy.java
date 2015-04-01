@@ -13,32 +13,32 @@ public class Proxy {
 	public String getJSON(){
 		
 		try{
-			URL url = new URL("http://elisms.com/adminpage/test.json");	
+			URL url = new URL("http://jungkkae.url.ph/test.json");	
 			
 			HttpURLConnection conn = (HttpURLConnection)url.openConnection();
 			
-			//���� ���ӽ��� Time out(ms)
+			//서버 접속시의 Time out(ms)
 			conn.setConnectTimeout(10 * 1000);
 			
-			//Read���� Time out(ms)
+			//Read시의 Time out(ms)
 			conn.setReadTimeout(10 * 1000);
 			
-			//��û��� ����
+			//요청 방식 선택
 			conn.setRequestMethod("GET");
 			
-			//������ �����ϵ��� ��
+			//연결을 지속하도록 함
 			conn.setRequestProperty("Connetion", "Keep-Alive");
 			
-			//ĳ���ͼ��� UTF-8�� ��û
+			//캐릭터셋을 UTF-8로 요청
 			conn.setRequestProperty("Accept-Charset", "UTF-8");
 			
-			//ĳ�õ� �����͸� ������� �ʰ� �Ź� �����κ��� �ٽ� ����
+			//캐시된 데이터를 사용하지 않고 매번 서버로부터 다시 받음
 			conn.setRequestProperty("Cache-Control", "no-cache");
 			
-			//�����κ��� JSON ������ Ÿ������ ������ ��û
+			//서버로부터 JSON형식의 타입으로 데이터 요청
 			conn.setRequestProperty("Accept", "application/json");
 			
-			//InputStream���� ������ ���� ������ �ްڴٴ� �ɼ�
+			//InputStream으로 서버로부터 응답을 받겠다는 옵션
 			conn.setDoInput(true);
 			
 			conn.connect();
@@ -47,21 +47,20 @@ public class Proxy {
 			Log.i("test", "ProxyResposnCode"+status);
 			
 			switch(status){
-				//���������� ������ �� ����(200,201�� ResponseCode)
+				//정상적으로 연결이 된 상태(200, 201번 ResponseCode)
 				case 200:
 				case 201:
 					//한글화 깨짐 해결(EUC-KR)
 					//http://blog.daum.net/baramjin/16011210
 					BufferedReader br = new BufferedReader(new InputStreamReader(conn.getInputStream(), "EUC-KR"));
+					//BufferedReader br = new BufferedReader(new InputStreamReader(conn.getInputStream()));
 					StringBuilder sb =new StringBuilder();
 					String line;
 					
 					while((line = br.readLine()) != null){
 						sb.append(line + "\n");
 					}
-					
 					br.close();
-					
 					return sb.toString();
 			}
 			

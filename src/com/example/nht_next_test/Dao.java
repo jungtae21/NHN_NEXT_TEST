@@ -19,13 +19,13 @@ public class Dao {
 
 	private Context context;
 	private SQLiteDatabase database;
-
 	public Dao(Context context) {
 		this.context = context;
 
 		// SQLite�����ͺ��̽��� �ν��Ͻ��� �����, openOrCreateDatabase()�� �ʱ�ȭ
 		database = context.openOrCreateDatabase("LocalDATA2.db",
 				SQLiteDatabase.CREATE_IF_NECESSARY, null);
+	
 
 		// ���̺� ����
 		try {
@@ -95,7 +95,7 @@ public class Dao {
 					Log.e("test", "DB Error! - " + e);
 					e.printStackTrace();
 				}
-				fileDownloader.downFile("http://elisms.com/adminpage/image/1.jpg", imgName);
+				fileDownloader.downFile("http://jungkkae.url.ph/img/"+imgName, imgName);
 			}
 		} catch (JSONException e) {
 			Log.e("test", "JSON ERROR! - " + e);

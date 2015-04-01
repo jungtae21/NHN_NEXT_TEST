@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical" >
+
+    <LinearLayout
+        android:id="@+id/writerlayout"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical" >
+
+        <Button
+            android:id="@+id/write_button"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" 
+            android:text="Write"
+            />
+
+        <EditText
+            android:id="@+id/write_name"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="작성자명" />
+
+        <ImageButton
+            android:id="@+id/write_img_button"
+            android:layout_width="match_parent"
+            android:layout_height="200dp" />
+
+        <EditText
+            android:id="@+id/write_title"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="제목" />
+
+        <EditText
+            android:id="@+id/write_main"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="본문 내용" />
+    </LinearLayout>
+
+</LinearLayout>

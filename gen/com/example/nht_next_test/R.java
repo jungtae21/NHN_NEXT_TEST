@@ -1663,13 +1663,13 @@ containing a value of this type.
         public static final int action_mode_bar=0x7f09002e;
         public static final int action_mode_bar_stub=0x7f09002d;
         public static final int action_mode_close_button=0x7f090020;
-        public static final int action_settings=0x7f09004b;
+        public static final int action_settings=0x7f090051;
         public static final int activity_chooser_view_content=0x7f090021;
         public static final int always=0x7f090014;
         public static final int beginning=0x7f09001b;
         public static final int checkbox=0x7f090029;
         public static final int collapseActionView=0x7f090015;
-        public static final int custom_list_listView=0x7f090044;
+        public static final int custom_list_listView=0x7f09004a;
         public static final int decor_content_parent=0x7f09002f;
         public static final int default_activity_button=0x7f090024;
         public static final int dialog=0x7f090019;
@@ -1684,12 +1684,12 @@ containing a value of this type.
         public static final int icon=0x7f090026;
         public static final int ifRoom=0x7f090016;
         public static final int image=0x7f090023;
-        public static final int imageView1=0x7f090048;
+        public static final int imageView1=0x7f09004e;
         public static final int listMode=0x7f09000a;
         public static final int list_item=0x7f090025;
-        public static final int main_button_refresh=0x7f090046;
-        public static final int main_button_write=0x7f090045;
-        public static final int main_listView1=0x7f090047;
+        public static final int main_button_refresh=0x7f09004c;
+        public static final int main_button_write=0x7f09004b;
+        public static final int main_listView1=0x7f09004d;
         public static final int middle=0x7f09001d;
         public static final int never=0x7f090017;
         public static final int none=0x7f09000f;
@@ -1714,8 +1714,8 @@ containing a value of this type.
         public static final int split_action_bar=0x7f090004;
         public static final int submit_area=0x7f09003c;
         public static final int tabMode=0x7f09000c;
-        public static final int textView1=0x7f090049;
-        public static final int textView2=0x7f09004a;
+        public static final int textView1=0x7f09004f;
+        public static final int textView2=0x7f090050;
         public static final int title=0x7f090027;
         public static final int up=0x7f090001;
         public static final int useLogo=0x7f090013;
@@ -1726,6 +1726,12 @@ containing a value of this type.
         public static final int view_article_textView_wrtie_time=0x7f090040;
         public static final int withText=0x7f090018;
         public static final int wrap_content=0x7f090009;
+        public static final int write_button=0x7f090045;
+        public static final int write_img_button=0x7f090047;
+        public static final int write_main=0x7f090049;
+        public static final int write_name=0x7f090046;
+        public static final int write_title=0x7f090048;
+        public static final int writerlayout=0x7f090044;
     }
     public static final class integer {
         public static final int abc_config_activityDefaultDur=0x7f080001;
@@ -1780,15 +1786,17 @@ containing a value of this type.
         public static final int abc_search_view=0x7f030014;
         public static final int abc_simple_dropdown_hint=0x7f030015;
         public static final int activity_article_viewer=0x7f030016;
-        public static final int activity_custom_list=0x7f030017;
-        public static final int activity_main=0x7f030018;
-        public static final int cutsom_list_row=0x7f030019;
-        public static final int support_simple_spinner_dropdown_item=0x7f03001a;
+        public static final int activity_article_writer=0x7f030017;
+        public static final int activity_custom_list=0x7f030018;
+        public static final int activity_main=0x7f030019;
+        public static final int cutsom_list_row=0x7f03001a;
+        public static final int support_simple_spinner_dropdown_item=0x7f03001b;
     }
     public static final class menu {
         public static final int main=0x7f0c0000;
     }
     public static final class string {
+        public static final int abc=0x7f0a0013;
         /**  Content description for the action bar "home" affordance. [CHAR LIMIT=NONE] 
          */
         public static final int abc_action_bar_home_description=0x7f0a0001;
